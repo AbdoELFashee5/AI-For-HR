@@ -1,0 +1,950 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F4EE;
+    --ink: #1A1815;
+    --ink2: #3D3A35;
+    --ink3: #6B6760;
+    --accent: #C4500A;
+    --accent2: #0F6E56;
+    --line: rgba(26,24,21,0.12);
+    --card: #FFFFFF;
+  }
+
+  body { background: transparent; font-family: 'DM Sans', sans-serif; color: var(--ink); }
+
+  .wrap { padding: 0 0 3rem; }
+
+  .hero {
+    padding: 2.5rem 2rem 2rem;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  .hero-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.6rem;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--accent); }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--ink3);
+    line-height: 1.6;
+    max-width: 560px;
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--ink2);
+  }
+
+  .meta-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .dot-orange { background: var(--accent); }
+  .dot-green { background: var(--accent2); }
+  .dot-blue { background: #185FA5; }
+
+  .promise-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .promise-item {
+    padding: 1.25rem 1.5rem;
+    border-right: 1px solid var(--line);
+  }
+  .promise-item:last-child { border-right: none; }
+
+  .promise-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .promise-label {
+    font-size: 12px;
+    color: var(--ink3);
+    line-height: 1.4;
+  }
+
+  .section-header {
+    padding: 1.5rem 2rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--ink);
+  }
+
+  .lesson {
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .lesson:hover { background: rgba(196,80,10,0.03); }
+
+  .lesson-header {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: start;
+    padding: 1.25rem 2rem;
+    gap: 1rem;
+  }
+
+  .lesson-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    opacity: 0.5;
+    padding-top: 2px;
+  }
+
+  .lesson-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+
+  .lesson-sub {
+    font-size: 13px;
+    color: var(--ink3);
+    line-height: 1.4;
+  }
+
+  .lesson-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    min-width: 80px;
+  }
+
+  .time-badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(26,24,21,0.06);
+    color: var(--ink3);
+    white-space: nowrap;
+  }
+
+  .phase-badge {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .ph-found { background: #FAECE7; color: #993C1D; }
+  .ph-recruit { background: #E6F1FB; color: #185FA5; }
+  .ph-exp { background: #E1F5EE; color: #0F6E56; }
+  .ph-perf { background: #FAEEDA; color: #854F0B; }
+  .ph-eth { background: #F1EFE8; color: #5F5E5A; }
+  .ph-workshop { background: #EEEDFE; color: #534AB7; }
+
+  .chevron {
+    font-size: 16px;
+    color: var(--ink3);
+    transition: transform 0.2s;
+    margin-top: 2px;
+    opacity: 0.5;
+  }
+  .lesson.open .chevron { transform: rotate(90deg); }
+
+  .lesson-body {
+    display: none;
+    padding: 0 2rem 1.5rem 4rem;
+  }
+
+  .lesson.open .lesson-body { display: block; }
+
+  .pain-box {
+    background: #FEF6F3;
+    border-left: 3px solid var(--accent);
+    padding: 0.75rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+  }
+
+  .pain-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .pain-text {
+    font-size: 13px;
+    color: #993C1D;
+    line-height: 1.5;
+  }
+
+  .cure-box {
+    background: #F0FAF6;
+    border-left: 3px solid var(--accent2);
+    padding: 0.75rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+  }
+
+  .cure-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 4px;
+  }
+
+  .cure-text {
+    font-size: 13px;
+    color: #0F6E56;
+    line-height: 1.5;
+  }
+
+  .content-section {
+    margin-bottom: 1rem;
+  }
+
+  .content-section h4 {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .step-list li {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.5;
+  }
+
+  .step-list li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .prompt-card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prompt-card-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 6px;
+  }
+
+  .prompt-card-text {
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--ink2);
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+
+  .outcome-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 0.5rem;
+  }
+
+  .outcome-card {
+    background: rgba(26,24,21,0.03);
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    font-size: 12px;
+    color: var(--ink2);
+    line-height: 1.4;
+    border: 1px solid var(--line);
+  }
+
+  .outcome-card strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+
+  .day-divider {
+    padding: 1rem 2rem 0.5rem;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .day-divider h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--ink2);
+  }
+
+  .footer {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-text {
+    font-size: 13px;
+    color: var(--ink3);
+  }
+
+  .footer-text strong {
+    color: var(--ink2);
+    font-weight: 500;
+  }
+
+  @media (max-width: 600px) {
+    .promise-bar { grid-template-columns: 1fr; }
+    .promise-item { border-right: none; border-bottom: 1px solid var(--line); }
+    .hero h1 { font-size: 1.9rem; }
+    .lesson-header { grid-template-columns: 36px 1fr auto; }
+    .outcome-grid { grid-template-columns: 1fr; }
+    .lesson-body { padding-left: 2rem; }
+  }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">AI for HR — Complete 16-hour curriculum with lesson plans, prompt templates, and learning outcomes</h2>
+
+  <div class="hero">
+    <div class="hero-tag">CLS Learning Solutions — 2026</div>
+    <h1>AI for <em>HR</em></h1>
+    <p class="hero-sub">A complete 16-hour curriculum for HR professionals. Every lesson solves a real daily pain with a copy-paste prompt. No theory without immediate application.</p>
+    <div class="meta-row">
+      <div class="meta-pill"><div class="meta-dot dot-orange"></div>16 hours total — 2 days</div>
+      <div class="meta-pill"><div class="meta-dot dot-green"></div>8 modules — 9 lessons</div>
+      <div class="meta-pill"><div class="meta-dot dot-blue"></div>Fictional company: GlobalHR Solutions</div>
+    </div>
+  </div>
+
+  <div class="promise-bar">
+    <div class="promise-item">
+      <div class="promise-num">4–6h</div>
+      <div class="promise-label">Saved per hire cycle after lesson 2–3</div>
+    </div>
+    <div class="promise-item">
+      <div class="promise-num">80%</div>
+      <div class="promise-label">Of performance review writing automated</div>
+    </div>
+    <div class="promise-item">
+      <div class="promise-num">Day 1</div>
+      <div class="promise-label">First real deliverable produced in lesson 1</div>
+    </div>
+  </div>
+
+  <div class="day-divider">
+    <h3>Day 1 — Foundation + Recruitment + Employee Experience (8 hours)</h3>
+  </div>
+
+  <div class="lesson" onclick="toggle(this)">
+    <div class="lesson-header">
+      <div class="lesson-num">01</div>
+      <div>
+        <div class="lesson-title">Introduction to AI in HR — The Unfair Advantage</div>
+        <div class="lesson-sub">Why AI is the most important skill shift in HR since HRIS systems. First live win in 15 minutes.</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="time-badge">90 min</div>
+        <div class="phase-badge ph-found">Foundation</div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="pain-box">
+        <div class="pain-label">The Pain</div>
+        <div class="pain-text">HR professionals spend 57–73% of their time on administrative tasks — writing the same emails, formatting the same documents, answering the same policy questions — instead of strategic people work. This is the problem AI solves immediately.</div>
+      </div>
+      <div class="cure-box">
+        <div class="cure-label">The Cure</div>
+        <div class="cure-text">In the first 15 minutes, every participant takes a messy, informal job requirement note from their manager and produces a fully polished, bias-reduced job description using one prompt. They see the result before we explain the theory.</div>
+      </div>
+
+      <div class="content-section">
+        <h4>What we cover</h4>
+        <ul class="step-list">
+          <li>The HR-specific AI opportunity: what tasks eat the most hours and which ones AI eliminates first</li>
+          <li>Live demonstration: rough manager note → polished JD in 90 seconds (the hook)</li>
+          <li>What is an LLM, explained in plain HR terms — it is a pattern-completing engine, not a search engine</li>
+          <li>The 3 tools we will use throughout: ChatGPT, Claude, and Gemini — when to use each</li>
+          <li>Safety and confidentiality: what to never put into a free AI tool, and how Teams/Enterprise plans solve that</li>
+          <li>The 6-Part Prompt Framework introduced (Task, Context, Specifications, Persona, Examples, Notes) — the core skill we will use in every single lesson</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h4>First live prompt (done together in the room)</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt Template — Job Description Generator</div>
+          <div class="prompt-card-text">You are a senior talent acquisition specialist with 15 years of experience writing inclusive, compelling job descriptions.
+
+Task: Turn the rough notes below into a polished job description for our careers page.
+
+Context: We are GlobalHR Solutions, a 500-person professional services firm. We are hiring for [role]. The hiring manager sent these notes: [paste raw notes here].
+
+Specifications: Write in a professional but human tone. Include: role summary (3 sentences), key responsibilities (6 bullet points), required qualifications, preferred qualifications, and a 2-sentence company culture statement. Remove any language that could signal gender or age bias. Keep total length under 400 words.
+
+Notes: Do not invent responsibilities not mentioned in the notes. If anything is unclear, flag it at the end.</div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h4>Lesson outcomes</h4>
+        <div class="outcome-grid">
+          <div class="outcome-card"><strong>Skill</strong>Write and structure a 6-part prompt from scratch</div>
+          <div class="outcome-card"><strong>Deliverable</strong>A polished JD produced during the lesson</div>
+          <div class="outcome-card"><strong>Mindset</strong>Result first, theory second — every lesson follows this pattern</div>
+          <div class="outcome-card"><strong>Setup</strong>Account created, tool open, custom instructions configured</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson" onclick="toggle(this)">
+    <div class="lesson-header">
+      <div class="lesson-num">02</div>
+      <div>
+        <div class="lesson-title">Recruitment Part 1 — Sourcing, Screening & Candidate Communication</div>
+        <div class="lesson-sub">From 200 CVs to a ranked shortlist in minutes. Mass communication done in seconds.</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="time-badge">90 min</div>
+        <div class="phase-badge ph-recruit">Recruitment</div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="pain-box">
+        <div class="pain-label">The Pain</div>
+        <div class="pain-text">A typical HR specialist reads 150–300 CVs per role opening. At 3 minutes per CV that is 7.5–15 hours of screen time per hire — for a single role. Then they write individual outreach and rejection emails one by one.</div>
+      </div>
+      <div class="cure-box">
+        <div class="cure-label">The Cure</div>
+        <div class="cure-text">Build a scoring rubric with AI in 2 minutes. Paste each CV text and get a structured score and recommendation in 15 seconds. Write all 5 outreach email variants in one prompt. The entire intake process for a role drops from 2 days to 3 hours.</div>
+      </div>
+
+      <div class="content-section">
+        <h4>What we cover</h4>
+        <ul class="step-list">
+          <li>Building a role-specific scoring rubric: give AI the JD and ask it to define weighted criteria (experience, skills, culture signals)</li>
+          <li>The CV screening method: copy-paste CV text → AI outputs a score, a 3-line summary, and a hire/hold/reject recommendation</li>
+          <li>Batch screening workflow: how to process 20 CVs in a single structured session without losing context</li>
+          <li>Writing the full outreach communication suite: interview invite, scheduling confirmation, hold email, rejection, and counter-offer response — all five in one 90-second prompt</li>
+          <li>The refinement cycle applied to screening: ask AI to criticize its own shortlist and check for overlooked candidates</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h4>Core prompt templates</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt 1 — Build a Scoring Rubric</div>
+          <div class="prompt-card-text">You are a senior talent acquisition specialist. Based on the job description below, create a scoring rubric I can use to evaluate CVs consistently.
+
+Job description: [paste JD]
+
+Output: A table with 6 criteria, a weight (%) for each totaling 100%, what a strong / average / weak candidate looks like for each criterion, and red-flag signals to watch for. Keep it practical enough to use in 2 minutes per CV.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt 2 — Screen a Single CV</div>
+          <div class="prompt-card-text">Using the rubric below, evaluate this candidate's CV.
+
+Rubric: [paste rubric]
+CV: [paste CV text]
+
+Output: Score out of 100, a 3-line summary of their fit, their strongest point, their biggest gap, and a clear recommendation: Advance / Hold / Reject.</div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h4>Lesson outcomes</h4>
+        <div class="outcome-grid">
+          <div class="outcome-card"><strong>Skill</strong>Build and apply an AI screening rubric</div>
+          <div class="outcome-card"><strong>Time saved</strong>4–6 hours per hire cycle minimum</div>
+          <div class="outcome-card"><strong>Deliverable</strong>A scored shortlist and 5 email templates</div>
+          <div class="outcome-card"><strong>Technique</strong>Refinement cycle for quality-checking AI outputs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson" onclick="toggle(this)">
+    <div class="lesson-header">
+      <div class="lesson-num">03</div>
+      <div>
+        <div class="lesson-title">Recruitment Part 2 — Chatting with Documents & Policy Knowledge Base</div>
+        <div class="lesson-sub">Upload your HR policy manual. Ask it questions in plain language. Get answers in 5 seconds instead of 30 minutes.</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="time-badge">60 min</div>
+        <div class="phase-badge ph-recruit">Recruitment</div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="pain-box">
+        <div class="pain-label">The Pain</div>
+        <div class="pain-text">Every HR professional spends 20–40 minutes per week hunting through policy documents, labor law PDFs, and employee handbooks to answer questions they've answered a hundred times before. The document exists — finding the right paragraph does not.</div>
+      </div>
+      <div class="cure-box">
+        <div class="cure-label">The Cure</div>
+        <div class="cure-text">Upload the policy document, employee handbook, or labor law PDF directly into the chat. Then ask questions in plain language — "Is a 3-month probation standard for this role?" or "What is our policy on remote work for employees who have been here less than 6 months?" — and get the exact paragraph reference and a plain-language summary in seconds.</div>
+      </div>
+
+      <div class="content-section">
+        <h4>What we cover</h4>
+        <ul class="step-list">
+          <li>How to upload PDF/Word documents and query them conversationally — the "document chat" technique</li>
+          <li>Building a personal HR knowledge assistant: upload all relevant policy docs to a ChatGPT Project or Claude Project and give it persistent context</li>
+          <li>The interrogation pattern applied to policy: ask AI what it needs to give you the most accurate policy answer before you ask the actual question</li>
+          <li>Chatbot-style knowledge base demo: how HR can create a simple "ask me anything about our policies" assistant using a custom GPT loaded with company documents</li>
+          <li>What to do when documents conflict or are outdated: AI flags contradictions and requests clarification</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h4>Core prompt template</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt — Document Policy Assistant Setup</div>
+          <div class="prompt-card-text">You are an HR policy specialist for GlobalHR Solutions. I have uploaded our employee handbook, HR policies manual, and applicable labor law summary. Your job is to answer HR questions accurately, cite the exact policy section that applies, and flag any contradictions or gaps you notice.
+
+Before answering any policy question, always: (1) state which document your answer comes from, (2) give a plain-language summary, and (3) flag if the situation might require legal counsel.
+
+When you don't know, say so clearly rather than guessing.</div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h4>Lesson outcomes</h4>
+        <div class="outcome-grid">
+          <div class="outcome-card"><strong>Skill</strong>Document upload and conversational querying</div>
+          <div class="outcome-card"><strong>Deliverable</strong>A working policy assistant set up in their own account</div>
+          <div class="outcome-card"><strong>Time saved</strong>20–40 min/week on policy lookups, permanently</div>
+          <div class="outcome-card"><strong>Bonus</strong>Custom GPT built for team-wide policy Q&A</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson" onclick="toggle(this)">
+    <div class="lesson-header">
+      <div class="lesson-num">04</div>
+      <div>
+        <div class="lesson-title">Employee Experience — AI-Powered Onboarding</div>
+        <div class="lesson-sub">Build a full 30-60-90 day onboarding plan for any role in under 5 minutes. Create an employee FAQ assistant that answers so HR doesn't have to.</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="time-badge">90 min</div>
+        <div class="phase-badge ph-exp">Experience</div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="pain-box">
+        <div class="pain-label">The Pain</div>
+        <div class="pain-text">Building onboarding plans takes 3–5 hours per role and they are often recycled generics that don't match the actual role. New employees then ask HR the same 20 questions in their first week — every single cohort. This is pure repetitive drain.</div>
+      </div>
+      <div class="cure-box">
+        <div class="cure-label">The Cure</div>
+        <div class="cure-text">AI generates a fully role-specific, department-aware 30-60-90 day plan in minutes. A custom GPT loaded with company documents handles the top 20 FAQ questions automatically, freeing HR to focus on human relationship-building during the critical first 90 days.</div>
+      </div>
+
+      <div class="content-section">
+        <h4>What we cover</h4>
+        <ul class="step-list">
+          <li>The 30-60-90 day plan prompt: give AI the role, department, manager expectations, and company values — get a structured onboarding plan with weekly milestones</li>
+          <li>Personalizing for seniority: how the prompt changes for a junior analyst vs. a department head</li>
+          <li>Creating the "New Employee Welcome Package" in one prompt: welcome message, first-day agenda, key contacts, and FAQ answers — all formatted and ready to send</li>
+          <li>Building an onboarding assistant chatbot: upload the welcome pack, org chart, and policies — new employees get a personal AI guide for their first month</li>
+          <li>Predictive scenario modeling applied to onboarding: ask AI to simulate what the new employee will struggle with and build proactive support into the plan</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h4>Core prompt template</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt — 30-60-90 Day Onboarding Plan Generator</div>
+          <div class="prompt-card-text">You are a senior HR business partner specializing in employee onboarding and integration.
+
+Task: Create a detailed 30-60-90 day onboarding plan for a new hire.
+
+Context: Company: GlobalHR Solutions (500 people, professional services). Role: [job title]. Department: [department]. Manager: [manager's name and style if known]. The employee's background: [brief profile]. Company values: [list 3–4 values].
+
+Specifications: Structure the plan in three phases (Days 1–30: Learn, Days 31–60: Apply, Days 61–90: Contribute). For each phase include: weekly focus, key relationships to build, specific tasks to complete, and one measurable milestone. End with 5 potential early challenges and how the manager can address each proactively.
+
+Output format: clean table for the weekly milestones, prose for the challenges section.</div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h4>Lesson outcomes</h4>
+        <div class="outcome-grid">
+          <div class="outcome-card"><strong>Deliverable</strong>A complete 30-60-90 plan produced in the session</div>
+          <div class="outcome-card"><strong>Skill</strong>Predictive scenario modeling for people outcomes</div>
+          <div class="outcome-card"><strong>Time saved</strong>3–5 hours of manual onboarding prep per hire</div>
+          <div class="outcome-card"><strong>Bonus</strong>New employee FAQ chatbot configured</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson" onclick="toggle(this)">
+    <div class="lesson-header">
+      <div class="lesson-num">05</div>
+      <div>
+        <div class="lesson-title">Employee Experience — Personalized L&D Programs & ERP-Connected Chatbots</div>
+        <div class="lesson-sub">Generate individual learning paths. Understand how AI chatbots integrate with your existing HR systems.</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="time-badge">60 min</div>
+        <div class="phase-badge ph-exp">Experience</div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="pain-box">
+        <div class="pain-label">The Pain</div>
+        <div class="pain-text">Learning and development programs are either one-size-fits-all (and therefore irrelevant to most employees) or they require hours of individual assessment and planning per person. Neither approach scales. HR becomes a bottleneck in employee growth.</div>
+      </div>
+      <div class="cure-box">
+        <div class="cure-label">The Cure</div>
+        <div class="cure-text">AI generates a fully personalized L&D plan when given an employee's current role, career goal, skill gaps, and learning style preference. It recommends specific resources, timelines, and metrics. HR moves from plan-writer to plan-reviewer — 10x the throughput.</div>
+      </div>
+
+      <div class="content-section">
+        <h4>What we cover</h4>
+        <ul class="step-list">
+          <li>The personalized L&D prompt: employee profile in, tailored 6-month development plan out — including resources, milestones, and a manager check-in cadence</li>
+          <li>Skill gap analysis using AI: paste a job description for the employee's target role, paste their current CV, ask AI to identify the exact gap and how to close it</li>
+          <li>Understanding ERP-integrated chatbots: conceptual overview of how companies connect AI assistants to SAP SuccessFactors, Workday, or Oracle HCM — what is possible now vs. what requires IT involvement</li>
+          <li>What HR can build today without IT: document-based assistants that handle leave requests, payroll FAQ, and benefits questions using uploaded policy documents</li>
+          <li>Data Privacy and sensitivity: what employee data should never go into a public AI tool, and how the Teams/Enterprise API solves this</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h4>Core prompt template</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt — Personalized L&D Plan</div>
+          <div class="prompt-card-text">You are a learning and development specialist with expertise in adult learning design.
+
+Task: Create a personalized 6-month development plan for the employee described below.
+
+Context: Employee name: [name]. Current role: [role]. Career goal: [target role or growth area]. Identified skill gaps: [list from their last review]. Learning style: [self-directed / structured / cohort-based]. Time available for learning: [X hours per week].
+
+Specifications: Structure the plan month by month. For each month: one primary skill focus, 2–3 specific resources (free and paid options), one practical application task, and a measurable outcome. End with a recommended 30-minute monthly check-in agenda between the employee and their manager.
+
+Output: A clean structured plan I can share directly with the employee and their manager.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-divider">
+    <h3>Day 2 — Performance + Analytics + Ethics + Workshop (8 hours)</h3>
+  </div>
+
+  <div class="lesson" onclick="toggle(this)">
+    <div class="lesson-header">
+      <div class="lesson-num">06</div>
+      <div>
+        <div class="lesson-title">Performance Management — AI-Assisted Reviews & Bias Reduction</div>
+        <div class="lesson-sub">Draft a full performance review in 3 minutes. Detect bias patterns across 50 reviews in seconds.</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="time-badge">90 min</div>
+        <div class="phase-badge ph-perf">Performance</div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="pain-box">
+        <div class="pain-label">The Pain</div>
+        <div class="pain-text">Performance review seasons consume 2–4 hours per manager per employee — and the results are often vague, inconsistent, and inadvertently biased. HR collects 200 reviews that use different language, different standards, and tell them nothing useful about organizational patterns.</div>
+      </div>
+      <div class="cure-box">
+        <div class="cure-label">The Cure</div>
+        <div class="cure-text">Managers give AI 5 bullet points of raw observations. AI produces a structured, specific, behavior-based review that eliminates gendered language, rates-the-behavior-not-the-person, and meets company policy standards. HR then pastes all 200 reviews into a single session and gets a cross-departmental pattern analysis in minutes.</div>
+      </div>
+
+      <div class="content-section">
+        <h4>What we cover</h4>
+        <ul class="step-list">
+          <li>The performance review generator: raw manager notes → structured, bias-checked, behavior-based review with specific examples and development recommendations</li>
+          <li>The bias-detection prompt: paste any review and ask AI to flag vague language, personality-based rather than behavior-based criticism, and gendered or age-related language patterns</li>
+          <li>Cross-department pattern analysis: paste multiple reviews and ask AI to identify which teams are receiving inflated ratings, which managers are under-documenting, and what themes appear among low performers</li>
+          <li>Calibration preparation: use AI to build a calibration meeting agenda based on submitted ratings — who needs discussion, where are the outliers</li>
+          <li>The 7-phase workflow applied: input the review data → organize by department → analyze patterns → confirm with manager input → communicate findings to leadership</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h4>Core prompt templates</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt 1 — Performance Review Generator</div>
+          <div class="prompt-card-text">You are a senior HR business partner specializing in performance management and constructive feedback.
+
+Task: Write a complete, professional performance review for the employee below based on the manager's raw observations.
+
+Context: Employee: [name], [role], [department]. Review period: [dates]. Manager observations: [paste bullet points]. Key objectives for the period: [list OKRs or goals]. Rating scale used: [1–5 or Exceeds/Meets/Below].
+
+Specifications: Write in third person. Base every statement on observable behavior, not personality. Include: overall performance summary (2 sentences), key achievements (3–4 specific examples), areas for development (2 specific and actionable), and a recommended rating with justification. Flag any of the manager's observations that are too vague to include. Run a final bias check and note anything you removed or reworded.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt 2 — Bias Detection Scan</div>
+          <div class="prompt-card-text">Review the following performance review text for bias, vagueness, and policy non-compliance.
+
+Check for: (1) gendered language or stereotyping, (2) age-related references, (3) personality-based rather than behavior-based statements, (4) vague qualifiers without examples ("sometimes," "generally"), (5) any language that could expose the company to discrimination risk.
+
+For each issue found: quote the exact phrase, explain why it is problematic, and suggest a replacement. End with an overall compliance rating: Green / Amber / Red.</div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h4>Lesson outcomes</h4>
+        <div class="outcome-grid">
+          <div class="outcome-card"><strong>Skill</strong>Review generation + bias detection workflow</div>
+          <div class="outcome-card"><strong>Time saved</strong>80% reduction in review writing time</div>
+          <div class="outcome-card"><strong>Deliverable</strong>A policy-compliant review produced in the session</div>
+          <div class="outcome-card"><strong>Strategic value</strong>Pattern analysis across the entire company</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson" onclick="toggle(this)">
+    <div class="lesson-header">
+      <div class="lesson-num">07</div>
+      <div>
+        <div class="lesson-title">Predictive Analytics — Flight Risk, Retention & Sentiment</div>
+        <div class="lesson-sub">Stop losing good people to surprises. Use data you already have to identify who is at risk before they hand in their notice.</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="time-badge">90 min</div>
+        <div class="phase-badge ph-perf">Performance</div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="pain-box">
+        <div class="pain-label">The Pain</div>
+        <div class="pain-text">The average cost of replacing an employee is 50–200% of their annual salary. By the time HR knows someone is unhappy enough to leave, it is usually too late. The data that would have predicted it — absenteeism, performance trends, promotion wait time, survey responses — was always there.</div>
+      </div>
+      <div class="cure-box">
+        <div class="cure-label">The Cure</div>
+        <div class="cure-text">Use the 7-phase AI workflow on employee data: input tenure, performance trajectory, absenteeism, time since last promotion, survey sentiment, and manager relationship quality. AI identifies the pattern profile of employees who left in the last 2 years and maps current employees to that risk profile. Reactive HR becomes proactive HR.</div>
+      </div>
+
+      <div class="content-section">
+        <h4>What we cover</h4>
+        <ul class="step-list">
+          <li>Phase 1 (Data Input): what signals to collect — tenure, absenteeism, performance trend, survey results, compensation vs. market, promotion history</li>
+          <li>Phase 2 (Organization): structuring the data in a format AI can analyze — building a simple anonymized profile table</li>
+          <li>Phase 3 (Analysis): the flight risk prompt — give AI the historical leaver profiles and ask it to identify the pattern, then apply that pattern to current employees</li>
+          <li>Phase 4 (Confirmation): cross-checking AI's flight risk flag list with manager input before any action is taken</li>
+          <li>Phase 5 (Decision): predictive scenario modeling — what happens if we promote this person? If we increase compensation? If we change their manager?</li>
+          <li>Sentiment analysis: paste anonymized survey responses and ask AI to surface the top 5 themes, emotional tone, and specific language clusters</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h4>Core prompt template</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt — Flight Risk Pattern Analysis</div>
+          <div class="prompt-card-text">You are a people analytics specialist. I am going to give you two datasets. First, profiles of employees who voluntarily left GlobalHR Solutions in the last 2 years. Second, profiles of our current employees. Your task is to identify the common pattern in the leavers and then flag which current employees match that pattern most closely.
+
+Leaver profiles: [paste anonymized table — tenure, last performance rating, time since promotion, absenteeism score, last survey sentiment]
+
+Current employee profiles: [paste same format table]
+
+Output: (1) The 3–5 strongest predictors of departure you can identify from the leaver data. (2) A ranked list of current employees by risk level (High / Medium / Low) with the specific signals driving each rating. (3) For the top 5 high-risk employees, suggest one targeted retention action for each. Note: treat this as a probability model, not a certainty — flag your confidence level.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson" onclick="toggle(this)">
+    <div class="lesson-header">
+      <div class="lesson-num">08</div>
+      <div>
+        <div class="lesson-title">Ethical Considerations — Bias, Privacy, Compliance & Responsible Use</div>
+        <div class="lesson-sub">The lesson that makes this course safe to implement. Understanding where AI creates risk and how to manage it.</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="time-badge">60 min</div>
+        <div class="phase-badge ph-eth">Ethics</div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="pain-box">
+        <div class="pain-label">The Risk</div>
+        <div class="pain-text">Using AI in hiring without understanding its bias profile can expose companies to discrimination liability. Using free AI tools with employee personal data can violate GDPR and local data protection law. HR professionals who use AI without this knowledge become a liability, not an asset.</div>
+      </div>
+      <div class="cure-box">
+        <div class="cure-label">The Framework</div>
+        <div class="cure-text">This lesson transforms HR professionals from passive AI users into responsible AI supervisors. They learn exactly where the risks live, how to use AI itself to audit for bias, which data classifications should never enter a public AI tool, and how to document AI-assisted decisions in a way that satisfies audit and compliance requirements.</div>
+      </div>
+
+      <div class="content-section">
+        <h4>What we cover</h4>
+        <ul class="step-list">
+          <li>How AI bias originates: training data reflects historical patterns — what this means for hiring, pay equity, and promotion decisions</li>
+          <li>The three places bias enters HR AI use: the prompt itself, the training data of the model, and the way outputs are interpreted</li>
+          <li>Using AI to audit its own bias: the self-criticism technique applied to HR decisions — ask AI to argue the other side, ask it to find the flaw in its own recommendation</li>
+          <li>Data classification for HR: what is safe to put into public AI (anonymized structural data, policy text), what requires an Enterprise plan (employee names, performance data, salaries), what should never go in at all (medical information, immigration status)</li>
+          <li>GDPR and local compliance: the difference between processing, storing, and using employee data with AI — and how to maintain a defensible audit trail</li>
+          <li>Documenting AI-assisted decisions: how to frame a hiring decision that AI supported, in language that is defensible to a tribunal or regulator</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h4>Core prompt — bias self-audit</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-label">Prompt — AI Decision Bias Audit</div>
+          <div class="prompt-card-text">I am going to share an AI-generated hiring recommendation. Your task is to act as an independent auditor and challenge it.
+
+Recommendation: [paste AI recommendation]
+Role being hired for: [role title]
+Criteria used: [paste rubric]
+
+Audit for: (1) Any criterion that could systematically disadvantage a protected group. (2) Any language in the recommendation that reflects demographic assumptions rather than job-relevant factors. (3) Any missing criteria that would have been relevant. (4) An overall bias risk rating: Low / Medium / High, with justification. Be direct and specific — this is a compliance exercise.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson" onclick="toggle(this)">
+    <div class="lesson-header">
+      <div class="lesson-num">09</div>
+      <div>
+        <div class="lesson-title">Interactive Workshop — Build Your Own AI-Powered HR Workflow</div>
+        <div class="lesson-sub">Each participant picks a real HR challenge from their job and runs it through the complete 7-phase AI workflow. Leave with a working deliverable.</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="time-badge">120 min</div>
+        <div class="phase-badge ph-workshop">Workshop</div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="cure-box">
+        <div class="cure-label">The Goal</div>
+        <div class="cure-text">Every participant leaves with a real, finished work product — not a hypothetical exercise. They prove to themselves that the full workflow works on their actual job, with their actual data, in one session.</div>
+      </div>
+
+      <div class="content-section">
+        <h4>Workshop structure</h4>
+        <ul class="step-list">
+          <li>Choose your challenge (5 min): participants select one of — a hiring cycle they are currently running, an upcoming performance review season task, an onboarding gap they want to fix, or a retention problem in their team</li>
+          <li>Phase 1 (15 min): gather the data — upload documents, paste context, set up the 6-part prompt with custom instructions</li>
+          <li>Phase 2 (10 min): organize and clarify — use the Book Framework to structure the problem and build the outline</li>
+          <li>Phase 3 (20 min): analyze — apply the refinement cycle, generate hypotheses, ask AI to self-criticize</li>
+          <li>Phase 4 (10 min): confirm — cross-check with a peer in the room, use the bias audit prompt on any hiring-related output</li>
+          <li>Phase 5 (15 min): decide — predictive scenario modeling on the top 3 options</li>
+          <li>Phase 6 (15 min): communicate — produce the final deliverable: a policy draft, a hiring recommendation, a review, or a retention action plan</li>
+          <li>Group share (30 min): 3–4 volunteers present their workflow and output to the group. Instructor provides feedback and shows alternative approaches.</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h4>Expected deliverables from participants</h4>
+        <div class="outcome-grid">
+          <div class="outcome-card"><strong>Option A</strong>A complete job description + scored shortlist for a live role</div>
+          <div class="outcome-card"><strong>Option B</strong>A 30-60-90 day plan for an incoming hire</div>
+          <div class="outcome-card"><strong>Option C</strong>A performance review + bias audit for a real employee</div>
+          <div class="outcome-card"><strong>Option D</strong>A flight risk analysis + retention action plan for one team</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">
+      <strong>Fictional company throughout:</strong> GlobalHR Solutions — 500-person professional services firm. All scenarios, data, and personas are grounded in this one company for narrative continuity.
+    </div>
+    <div class="footer-text">
+      <strong>Tools used:</strong> ChatGPT (Teams plan), Claude, Gemini 2.0 for video/audio, Gamma.app for presentations
+    </div>
+  </div>
+</div>
+
+<script>
+function toggle(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.lesson.open').forEach(l => l.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+</script>
